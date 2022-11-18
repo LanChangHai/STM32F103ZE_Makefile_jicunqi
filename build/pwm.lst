@@ -1,0 +1,319 @@
+ARM GAS  /tmp/ccZmLs3b.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"pwm.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.TIM3_PWM_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	TIM3_PWM_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	TIM3_PWM_Init:
+  25              	.LVL0:
+  26              	.LFB29:
+  27              		.file 1 "Drivers/HARDWARE/Src/pwm.c"
+   1:Drivers/HARDWARE/Src/pwm.c **** #include "pwm.h"
+   2:Drivers/HARDWARE/Src/pwm.c **** 
+   3:Drivers/HARDWARE/Src/pwm.c **** void TIM3_PWM_Init(u16 arr,u16 psc)
+   4:Drivers/HARDWARE/Src/pwm.c **** {
+  28              		.loc 1 4 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+   5:Drivers/HARDWARE/Src/pwm.c **** 	RCC->APB1ENR|=1<<1;
+  33              		.loc 1 5 2 view .LVU1
+  34              		.loc 1 5 14 is_stmt 0 view .LVU2
+  35 0000 1A4B     		ldr	r3, .L2
+  36 0002 DA69     		ldr	r2, [r3, #28]
+  37 0004 42F00202 		orr	r2, r2, #2
+  38 0008 DA61     		str	r2, [r3, #28]
+   6:Drivers/HARDWARE/Src/pwm.c **** 	RCC->APB2ENR|=1<<2;
+  39              		.loc 1 6 2 is_stmt 1 view .LVU3
+  40              		.loc 1 6 14 is_stmt 0 view .LVU4
+  41 000a 9A69     		ldr	r2, [r3, #24]
+  42 000c 42F00402 		orr	r2, r2, #4
+  43 0010 9A61     		str	r2, [r3, #24]
+   7:Drivers/HARDWARE/Src/pwm.c **** 	GPIOA->CRL&=0XF0FFFFFF;
+  44              		.loc 1 7 2 is_stmt 1 view .LVU5
+  45              		.loc 1 7 12 is_stmt 0 view .LVU6
+  46 0012 A3F58433 		sub	r3, r3, #67584
+  47 0016 1A68     		ldr	r2, [r3]
+  48 0018 22F07062 		bic	r2, r2, #251658240
+  49 001c 1A60     		str	r2, [r3]
+   8:Drivers/HARDWARE/Src/pwm.c **** 	GPIOA->CRL|=0X0B000000;
+  50              		.loc 1 8 2 is_stmt 1 view .LVU7
+ARM GAS  /tmp/ccZmLs3b.s 			page 2
+
+
+  51              		.loc 1 8 12 is_stmt 0 view .LVU8
+  52 001e 1A68     		ldr	r2, [r3]
+  53 0020 42F03062 		orr	r2, r2, #184549376
+  54 0024 1A60     		str	r2, [r3]
+   9:Drivers/HARDWARE/Src/pwm.c **** //	GPIOC->CRL&=0XF0FFFFFF;	//Pc6输出
+  10:Drivers/HARDWARE/Src/pwm.c **** //	GPIOC->CRL|=0X0B000000;	
+  11:Drivers/HARDWARE/Src/pwm.c **** //	RCC->APB2ENR|=1<<0; //启动辅助功能时钟
+  12:Drivers/HARDWARE/Src/pwm.c **** //	AFIO->MAPR&=0XFFFFF3FF;
+  13:Drivers/HARDWARE/Src/pwm.c **** //	AFIO->MAPR|=3<<10; //完全重映像 tim3_ch1->pc6
+  14:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->ARR=arr-1; //
+  55              		.loc 1 14 2 is_stmt 1 view .LVU9
+  56              		.loc 1 14 15 is_stmt 0 view .LVU10
+  57 0026 0138     		subs	r0, r0, #1
+  58              	.LVL1:
+  59              		.loc 1 14 15 view .LVU11
+  60 0028 80B2     		uxth	r0, r0
+  61              		.loc 1 14 11 view .LVU12
+  62 002a A3F58233 		sub	r3, r3, #66560
+  63 002e 9885     		strh	r0, [r3, #44]	@ movhi
+  15:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->PSC=psc-1; //分频系数
+  64              		.loc 1 15 2 is_stmt 1 view .LVU13
+  65              		.loc 1 15 15 is_stmt 0 view .LVU14
+  66 0030 0139     		subs	r1, r1, #1
+  67              	.LVL2:
+  68              		.loc 1 15 15 view .LVU15
+  69 0032 89B2     		uxth	r1, r1
+  70              		.loc 1 15 11 view .LVU16
+  71 0034 1985     		strh	r1, [r3, #40]	@ movhi
+  16:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->CCMR1|=6<<4;  //110pwm模式一
+  72              		.loc 1 16 2 is_stmt 1 view .LVU17
+  73              		.loc 1 16 13 is_stmt 0 view .LVU18
+  74 0036 1A8B     		ldrh	r2, [r3, #24]
+  75 0038 92B2     		uxth	r2, r2
+  76 003a 42F06002 		orr	r2, r2, #96
+  77 003e 1A83     		strh	r2, [r3, #24]	@ movhi
+  17:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->CCMR1|=1<<3;  //输出比较1预装载使能
+  78              		.loc 1 17 2 is_stmt 1 view .LVU19
+  79              		.loc 1 17 13 is_stmt 0 view .LVU20
+  80 0040 1A8B     		ldrh	r2, [r3, #24]
+  81 0042 92B2     		uxth	r2, r2
+  82 0044 42F00802 		orr	r2, r2, #8
+  83 0048 1A83     		strh	r2, [r3, #24]	@ movhi
+  18:Drivers/HARDWARE/Src/pwm.c ****     TIM3->CCER|=0<<1;	  //高电平为有效电平
+  84              		.loc 1 18 5 is_stmt 1 view .LVU21
+  85              		.loc 1 18 15 is_stmt 0 view .LVU22
+  86 004a 1A8C     		ldrh	r2, [r3, #32]
+  87 004c 92B2     		uxth	r2, r2
+  88 004e 1A84     		strh	r2, [r3, #32]	@ movhi
+  19:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->CCER|=1<<0;   //使能通道一
+  89              		.loc 1 19 2 is_stmt 1 view .LVU23
+  90              		.loc 1 19 12 is_stmt 0 view .LVU24
+  91 0050 1A8C     		ldrh	r2, [r3, #32]
+  92 0052 92B2     		uxth	r2, r2
+  93 0054 42F00102 		orr	r2, r2, #1
+  94 0058 1A84     		strh	r2, [r3, #32]	@ movhi
+  20:Drivers/HARDWARE/Src/pwm.c ****     TIM3->CR1=0x0080;   	//使能重装载
+  95              		.loc 1 20 5 is_stmt 1 view .LVU25
+ARM GAS  /tmp/ccZmLs3b.s 			page 3
+
+
+  96              		.loc 1 20 14 is_stmt 0 view .LVU26
+  97 005a 8022     		movs	r2, #128
+  98 005c 1A80     		strh	r2, [r3]	@ movhi
+  21:Drivers/HARDWARE/Src/pwm.c **** 	TIM3->CR1|=0x01;    	//使能定时器3 
+  99              		.loc 1 21 2 is_stmt 1 view .LVU27
+ 100              		.loc 1 21 11 is_stmt 0 view .LVU28
+ 101 005e 1A88     		ldrh	r2, [r3]
+ 102 0060 92B2     		uxth	r2, r2
+ 103 0062 42F00102 		orr	r2, r2, #1
+ 104 0066 1A80     		strh	r2, [r3]	@ movhi
+  22:Drivers/HARDWARE/Src/pwm.c **** }
+ 105              		.loc 1 22 1 view .LVU29
+ 106 0068 7047     		bx	lr
+ 107              	.L3:
+ 108 006a 00BF     		.align	2
+ 109              	.L2:
+ 110 006c 00100240 		.word	1073876992
+ 111              		.cfi_endproc
+ 112              	.LFE29:
+ 114              		.section	.text.TIM1_SPWM_Init,"ax",%progbits
+ 115              		.align	1
+ 116              		.global	TIM1_SPWM_Init
+ 117              		.syntax unified
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	TIM1_SPWM_Init:
+ 122              	.LVL3:
+ 123              	.LFB30:
+  23:Drivers/HARDWARE/Src/pwm.c **** 
+  24:Drivers/HARDWARE/Src/pwm.c **** void TIM1_SPWM_Init(u16 arr,u16 psc)
+  25:Drivers/HARDWARE/Src/pwm.c **** {
+ 124              		.loc 1 25 1 is_stmt 1 view -0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+  26:Drivers/HARDWARE/Src/pwm.c **** 	RCC->APB2ENR|=1<<11;
+ 129              		.loc 1 26 2 view .LVU31
+ 130              		.loc 1 26 14 is_stmt 0 view .LVU32
+ 131 0000 2A4B     		ldr	r3, .L5
+ 132 0002 9A69     		ldr	r2, [r3, #24]
+ 133 0004 42F40062 		orr	r2, r2, #2048
+ 134 0008 9A61     		str	r2, [r3, #24]
+  27:Drivers/HARDWARE/Src/pwm.c **** 	RCC->APB2ENR|=1<<2;
+ 135              		.loc 1 27 2 is_stmt 1 view .LVU33
+ 136              		.loc 1 27 14 is_stmt 0 view .LVU34
+ 137 000a 9A69     		ldr	r2, [r3, #24]
+ 138 000c 42F00402 		orr	r2, r2, #4
+ 139 0010 9A61     		str	r2, [r3, #24]
+  28:Drivers/HARDWARE/Src/pwm.c **** 	RCC->APB2ENR|=1<<3;
+ 140              		.loc 1 28 2 is_stmt 1 view .LVU35
+ 141              		.loc 1 28 14 is_stmt 0 view .LVU36
+ 142 0012 9A69     		ldr	r2, [r3, #24]
+ 143 0014 42F00802 		orr	r2, r2, #8
+ 144 0018 9A61     		str	r2, [r3, #24]
+  29:Drivers/HARDWARE/Src/pwm.c **** 	GPIOA->CRH&=0XFFFFFFF0;
+ 145              		.loc 1 29 2 is_stmt 1 view .LVU37
+ARM GAS  /tmp/ccZmLs3b.s 			page 4
+
+
+ 146              		.loc 1 29 12 is_stmt 0 view .LVU38
+ 147 001a A3F58433 		sub	r3, r3, #67584
+ 148 001e 5A68     		ldr	r2, [r3, #4]
+ 149 0020 22F00F02 		bic	r2, r2, #15
+ 150 0024 5A60     		str	r2, [r3, #4]
+  30:Drivers/HARDWARE/Src/pwm.c **** 	GPIOA->CRH|=0X0000000B;
+ 151              		.loc 1 30 2 is_stmt 1 view .LVU39
+ 152              		.loc 1 30 12 is_stmt 0 view .LVU40
+ 153 0026 5A68     		ldr	r2, [r3, #4]
+ 154 0028 42F00B02 		orr	r2, r2, #11
+ 155 002c 5A60     		str	r2, [r3, #4]
+  31:Drivers/HARDWARE/Src/pwm.c **** 	GPIOB->CRH&=0XFF0FFFFF;
+ 156              		.loc 1 31 2 is_stmt 1 view .LVU41
+ 157              		.loc 1 31 12 is_stmt 0 view .LVU42
+ 158 002e 03F58063 		add	r3, r3, #1024
+ 159 0032 5A68     		ldr	r2, [r3, #4]
+ 160 0034 22F47002 		bic	r2, r2, #15728640
+ 161 0038 5A60     		str	r2, [r3, #4]
+  32:Drivers/HARDWARE/Src/pwm.c **** 	GPIOB->CRH|=0X00B00000;
+ 162              		.loc 1 32 2 is_stmt 1 view .LVU43
+ 163              		.loc 1 32 12 is_stmt 0 view .LVU44
+ 164 003a 5A68     		ldr	r2, [r3, #4]
+ 165 003c 42F43002 		orr	r2, r2, #11534336
+ 166 0040 5A60     		str	r2, [r3, #4]
+  33:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->ARR=arr-1; //
+ 167              		.loc 1 33 2 is_stmt 1 view .LVU45
+ 168              		.loc 1 33 15 is_stmt 0 view .LVU46
+ 169 0042 0138     		subs	r0, r0, #1
+ 170              	.LVL4:
+ 171              		.loc 1 33 15 view .LVU47
+ 172 0044 80B2     		uxth	r0, r0
+ 173              		.loc 1 33 11 view .LVU48
+ 174 0046 03F50053 		add	r3, r3, #8192
+ 175 004a 9885     		strh	r0, [r3, #44]	@ movhi
+  34:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->PSC=psc-1; //分频系数
+ 176              		.loc 1 34 2 is_stmt 1 view .LVU49
+ 177              		.loc 1 34 15 is_stmt 0 view .LVU50
+ 178 004c 0139     		subs	r1, r1, #1
+ 179              	.LVL5:
+ 180              		.loc 1 34 15 view .LVU51
+ 181 004e 89B2     		uxth	r1, r1
+ 182              		.loc 1 34 11 view .LVU52
+ 183 0050 1985     		strh	r1, [r3, #40]	@ movhi
+  35:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CCMR1&=0;
+ 184              		.loc 1 35 2 is_stmt 1 view .LVU53
+ 185              		.loc 1 35 13 is_stmt 0 view .LVU54
+ 186 0052 1A8B     		ldrh	r2, [r3, #24]
+ 187 0054 0021     		movs	r1, #0
+ 188 0056 1983     		strh	r1, [r3, #24]	@ movhi
+  36:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CCMR1|=0X68;
+ 189              		.loc 1 36 2 is_stmt 1 view .LVU55
+ 190              		.loc 1 36 13 is_stmt 0 view .LVU56
+ 191 0058 1A8B     		ldrh	r2, [r3, #24]
+ 192 005a 92B2     		uxth	r2, r2
+ 193 005c 42F06802 		orr	r2, r2, #104
+ 194 0060 1A83     		strh	r2, [r3, #24]	@ movhi
+  37:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CCER&=0;
+ARM GAS  /tmp/ccZmLs3b.s 			page 5
+
+
+ 195              		.loc 1 37 2 is_stmt 1 view .LVU57
+ 196              		.loc 1 37 12 is_stmt 0 view .LVU58
+ 197 0062 1A8C     		ldrh	r2, [r3, #32]
+ 198 0064 1984     		strh	r1, [r3, #32]	@ movhi
+  38:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CCER|=1<<2;
+ 199              		.loc 1 38 2 is_stmt 1 view .LVU59
+ 200              		.loc 1 38 12 is_stmt 0 view .LVU60
+ 201 0066 1A8C     		ldrh	r2, [r3, #32]
+ 202 0068 92B2     		uxth	r2, r2
+ 203 006a 42F00402 		orr	r2, r2, #4
+ 204 006e 1A84     		strh	r2, [r3, #32]	@ movhi
+  39:Drivers/HARDWARE/Src/pwm.c ****   TIM1->CCER|=1<<0;
+ 205              		.loc 1 39 3 is_stmt 1 view .LVU61
+ 206              		.loc 1 39 13 is_stmt 0 view .LVU62
+ 207 0070 1A8C     		ldrh	r2, [r3, #32]
+ 208 0072 92B2     		uxth	r2, r2
+ 209 0074 42F00102 		orr	r2, r2, #1
+ 210 0078 1A84     		strh	r2, [r3, #32]	@ movhi
+  40:Drivers/HARDWARE/Src/pwm.c ****   TIM1->BDTR&=0;
+ 211              		.loc 1 40 3 is_stmt 1 view .LVU63
+ 212              		.loc 1 40 13 is_stmt 0 view .LVU64
+ 213 007a B3F84420 		ldrh	r2, [r3, #68]
+ 214 007e A3F84410 		strh	r1, [r3, #68]	@ movhi
+  41:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->BDTR|=1<<15;
+ 215              		.loc 1 41 2 is_stmt 1 view .LVU65
+ 216              		.loc 1 41 12 is_stmt 0 view .LVU66
+ 217 0082 B3F84420 		ldrh	r2, [r3, #68]
+ 218 0086 6FEA4242 		mvn	r2, r2, lsl #17
+ 219 008a 6FEA5242 		mvn	r2, r2, lsr #17
+ 220 008e 92B2     		uxth	r2, r2
+ 221 0090 A3F84420 		strh	r2, [r3, #68]	@ movhi
+  42:Drivers/HARDWARE/Src/pwm.c **** //	TIM1->BDTR|=0xAB;
+  43:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CR1|=1<<7;   	//使能重装载
+ 222              		.loc 1 43 2 is_stmt 1 view .LVU67
+ 223              		.loc 1 43 11 is_stmt 0 view .LVU68
+ 224 0094 1A88     		ldrh	r2, [r3]
+ 225 0096 92B2     		uxth	r2, r2
+ 226 0098 42F08002 		orr	r2, r2, #128
+ 227 009c 1A80     		strh	r2, [r3]	@ movhi
+  44:Drivers/HARDWARE/Src/pwm.c **** 	TIM1->CR1|=1<<0;    	//使能定时器3 
+ 228              		.loc 1 44 2 is_stmt 1 view .LVU69
+ 229              		.loc 1 44 11 is_stmt 0 view .LVU70
+ 230 009e 1A88     		ldrh	r2, [r3]
+ 231 00a0 92B2     		uxth	r2, r2
+ 232 00a2 42F00102 		orr	r2, r2, #1
+ 233 00a6 1A80     		strh	r2, [r3]	@ movhi
+  45:Drivers/HARDWARE/Src/pwm.c **** }
+ 234              		.loc 1 45 1 view .LVU71
+ 235 00a8 7047     		bx	lr
+ 236              	.L6:
+ 237 00aa 00BF     		.align	2
+ 238              	.L5:
+ 239 00ac 00100240 		.word	1073876992
+ 240              		.cfi_endproc
+ 241              	.LFE30:
+ 243              		.text
+ 244              	.Letext0:
+ARM GAS  /tmp/ccZmLs3b.s 			page 6
+
+
+ 245              		.file 2 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_default_types.h"
+ 246              		.file 3 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_stdint.h"
+ 247              		.file 4 "Core/Inc/stm32f10x.h"
+ARM GAS  /tmp/ccZmLs3b.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pwm.c
+     /tmp/ccZmLs3b.s:18     .text.TIM3_PWM_Init:0000000000000000 $t
+     /tmp/ccZmLs3b.s:24     .text.TIM3_PWM_Init:0000000000000000 TIM3_PWM_Init
+     /tmp/ccZmLs3b.s:110    .text.TIM3_PWM_Init:000000000000006c $d
+     /tmp/ccZmLs3b.s:115    .text.TIM1_SPWM_Init:0000000000000000 $t
+     /tmp/ccZmLs3b.s:121    .text.TIM1_SPWM_Init:0000000000000000 TIM1_SPWM_Init
+     /tmp/ccZmLs3b.s:239    .text.TIM1_SPWM_Init:00000000000000ac $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,274 @@
+ARM GAS  /tmp/cckv2Xvy.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"delay.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.delay_init,"ax",%progbits
+  18              		.align	1
+  19              		.global	delay_init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	delay_init:
+  25              	.LVL0:
+  26              	.LFB29:
+  27              		.file 1 "Drivers/HARDWARE/Src/delay.c"
+   1:Drivers/HARDWARE/Src/delay.c **** #include "delay.h"
+   2:Drivers/HARDWARE/Src/delay.c **** 
+   3:Drivers/HARDWARE/Src/delay.c **** static u8 fac_us;
+   4:Drivers/HARDWARE/Src/delay.c **** static u16 fac_ms;
+   5:Drivers/HARDWARE/Src/delay.c **** 
+   6:Drivers/HARDWARE/Src/delay.c **** void delay_init(u8 SYSCLK)
+   7:Drivers/HARDWARE/Src/delay.c **** {
+  28              		.loc 1 7 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+   8:Drivers/HARDWARE/Src/delay.c ****  	SysTick->CTRL&=~(1<<2);					//控制状态寄存器 CLKSOUREC 0 外部时钟源
+  33              		.loc 1 8 3 view .LVU1
+  34              		.loc 1 8 16 is_stmt 0 view .LVU2
+  35 0000 4FF0E022 		mov	r2, #-536813568
+  36 0004 1369     		ldr	r3, [r2, #16]
+  37 0006 23F00403 		bic	r3, r3, #4
+  38 000a 1361     		str	r3, [r2, #16]
+   9:Drivers/HARDWARE/Src/delay.c **** 	fac_us=SYSCLK/8;					  
+  39              		.loc 1 9 2 is_stmt 1 view .LVU3
+  40              		.loc 1 9 8 is_stmt 0 view .LVU4
+  41 000c C008     		lsrs	r0, r0, #3
+  42              	.LVL1:
+  43              		.loc 1 9 8 view .LVU5
+  44 000e 054B     		ldr	r3, .L2
+  45 0010 1870     		strb	r0, [r3]
+  10:Drivers/HARDWARE/Src/delay.c **** 	fac_ms=(u16)fac_us*1000;				
+  46              		.loc 1 10 2 is_stmt 1 view .LVU6
+  47              		.loc 1 10 8 is_stmt 0 view .LVU7
+  48 0012 C0EB4013 		rsb	r3, r0, r0, lsl #5
+ARM GAS  /tmp/cckv2Xvy.s 			page 2
+
+
+  49 0016 00EB8300 		add	r0, r0, r3, lsl #2
+  50 001a C000     		lsls	r0, r0, #3
+  51 001c 024B     		ldr	r3, .L2+4
+  52 001e 1880     		strh	r0, [r3]	@ movhi
+  11:Drivers/HARDWARE/Src/delay.c **** }		
+  53              		.loc 1 11 1 view .LVU8
+  54 0020 7047     		bx	lr
+  55              	.L3:
+  56 0022 00BF     		.align	2
+  57              	.L2:
+  58 0024 00000000 		.word	.LANCHOR0
+  59 0028 00000000 		.word	.LANCHOR1
+  60              		.cfi_endproc
+  61              	.LFE29:
+  63              		.section	.text.delay_us,"ax",%progbits
+  64              		.align	1
+  65              		.global	delay_us
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	delay_us:
+  71              	.LVL2:
+  72              	.LFB30:
+  12:Drivers/HARDWARE/Src/delay.c **** 
+  13:Drivers/HARDWARE/Src/delay.c **** void delay_us(u16 us)
+  14:Drivers/HARDWARE/Src/delay.c **** {
+  73              		.loc 1 14 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		@ link register save eliminated.
+  15:Drivers/HARDWARE/Src/delay.c **** 	u32 temp;
+  78              		.loc 1 15 2 view .LVU10
+  16:Drivers/HARDWARE/Src/delay.c **** 	SysTick->LOAD=(u32)(us*fac_us);
+  79              		.loc 1 16 2 view .LVU11
+  80              		.loc 1 16 24 is_stmt 0 view .LVU12
+  81 0000 0C4B     		ldr	r3, .L6
+  82 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  83 0004 03FB00F0 		mul	r0, r3, r0
+  84              	.LVL3:
+  85              		.loc 1 16 15 view .LVU13
+  86 0008 4FF0E023 		mov	r3, #-536813568
+  87 000c 5861     		str	r0, [r3, #20]
+  17:Drivers/HARDWARE/Src/delay.c **** 	SysTick->VAL=0x00;
+  88              		.loc 1 17 2 is_stmt 1 view .LVU14
+  89              		.loc 1 17 14 is_stmt 0 view .LVU15
+  90 000e 0022     		movs	r2, #0
+  91 0010 9A61     		str	r2, [r3, #24]
+  18:Drivers/HARDWARE/Src/delay.c **** 	SysTick->CTRL|=0x01;
+  92              		.loc 1 18 2 is_stmt 1 view .LVU16
+  93              		.loc 1 18 15 is_stmt 0 view .LVU17
+  94 0012 1A69     		ldr	r2, [r3, #16]
+  95 0014 42F00102 		orr	r2, r2, #1
+  96 0018 1A61     		str	r2, [r3, #16]
+  97              	.L5:
+  19:Drivers/HARDWARE/Src/delay.c **** 	do
+  98              		.loc 1 19 2 is_stmt 1 discriminator 1 view .LVU18
+ARM GAS  /tmp/cckv2Xvy.s 			page 3
+
+
+  20:Drivers/HARDWARE/Src/delay.c **** 	{
+  21:Drivers/HARDWARE/Src/delay.c **** 		temp=SysTick->CTRL;
+  99              		.loc 1 21 3 discriminator 1 view .LVU19
+ 100              		.loc 1 21 7 is_stmt 0 discriminator 1 view .LVU20
+ 101 001a 4FF0E023 		mov	r3, #-536813568
+ 102 001e 1B69     		ldr	r3, [r3, #16]
+ 103              	.LVL4:
+  22:Drivers/HARDWARE/Src/delay.c **** 	}while((temp&0x01)&&!(temp&(1<<16)));	
+ 104              		.loc 1 22 8 is_stmt 1 discriminator 1 view .LVU21
+ 105              		.loc 1 22 20 is_stmt 0 discriminator 1 view .LVU22
+ 106 0020 03F00113 		and	r3, r3, #65537
+ 107              	.LVL5:
+ 108              		.loc 1 22 2 discriminator 1 view .LVU23
+ 109 0024 012B     		cmp	r3, #1
+ 110 0026 F8D0     		beq	.L5
+  23:Drivers/HARDWARE/Src/delay.c **** 	SysTick->CTRL=0x00;      	 	
+ 111              		.loc 1 23 2 is_stmt 1 view .LVU24
+ 112              		.loc 1 23 15 is_stmt 0 view .LVU25
+ 113 0028 4FF0E023 		mov	r3, #-536813568
+ 114 002c 0022     		movs	r2, #0
+ 115 002e 1A61     		str	r2, [r3, #16]
+  24:Drivers/HARDWARE/Src/delay.c **** 	SysTick->VAL =0X00;       				
+ 116              		.loc 1 24 2 is_stmt 1 view .LVU26
+ 117              		.loc 1 24 15 is_stmt 0 view .LVU27
+ 118 0030 9A61     		str	r2, [r3, #24]
+  25:Drivers/HARDWARE/Src/delay.c **** }
+ 119              		.loc 1 25 1 view .LVU28
+ 120 0032 7047     		bx	lr
+ 121              	.L7:
+ 122              		.align	2
+ 123              	.L6:
+ 124 0034 00000000 		.word	.LANCHOR0
+ 125              		.cfi_endproc
+ 126              	.LFE30:
+ 128              		.section	.text.delay_ms,"ax",%progbits
+ 129              		.align	1
+ 130              		.global	delay_ms
+ 131              		.syntax unified
+ 132              		.thumb
+ 133              		.thumb_func
+ 135              	delay_ms:
+ 136              	.LVL6:
+ 137              	.LFB31:
+  26:Drivers/HARDWARE/Src/delay.c **** 
+  27:Drivers/HARDWARE/Src/delay.c **** void delay_ms(u16 ms)
+  28:Drivers/HARDWARE/Src/delay.c **** {
+ 138              		.loc 1 28 1 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+  29:Drivers/HARDWARE/Src/delay.c **** 	u32 temp;		   
+ 143              		.loc 1 29 2 view .LVU30
+  30:Drivers/HARDWARE/Src/delay.c **** 	SysTick->LOAD=(u32)ms*fac_ms;			
+ 144              		.loc 1 30 2 view .LVU31
+ 145              		.loc 1 30 23 is_stmt 0 view .LVU32
+ 146 0000 0B4B     		ldr	r3, .L10
+ARM GAS  /tmp/cckv2Xvy.s 			page 4
+
+
+ 147 0002 1B88     		ldrh	r3, [r3]
+ 148 0004 03FB00F0 		mul	r0, r3, r0
+ 149              	.LVL7:
+ 150              		.loc 1 30 15 view .LVU33
+ 151 0008 4FF0E023 		mov	r3, #-536813568
+ 152 000c 5861     		str	r0, [r3, #20]
+  31:Drivers/HARDWARE/Src/delay.c **** 	SysTick->VAL =0x00;           			
+ 153              		.loc 1 31 2 is_stmt 1 view .LVU34
+ 154              		.loc 1 31 15 is_stmt 0 view .LVU35
+ 155 000e 0022     		movs	r2, #0
+ 156 0010 9A61     		str	r2, [r3, #24]
+  32:Drivers/HARDWARE/Src/delay.c **** 	SysTick->CTRL=0x01 ;          			  
+ 157              		.loc 1 32 2 is_stmt 1 view .LVU36
+ 158              		.loc 1 32 15 is_stmt 0 view .LVU37
+ 159 0012 0122     		movs	r2, #1
+ 160 0014 1A61     		str	r2, [r3, #16]
+ 161              	.L9:
+  33:Drivers/HARDWARE/Src/delay.c **** 	do
+ 162              		.loc 1 33 2 is_stmt 1 discriminator 1 view .LVU38
+  34:Drivers/HARDWARE/Src/delay.c **** 	{
+  35:Drivers/HARDWARE/Src/delay.c **** 		temp=SysTick->CTRL;
+ 163              		.loc 1 35 3 discriminator 1 view .LVU39
+ 164              		.loc 1 35 7 is_stmt 0 discriminator 1 view .LVU40
+ 165 0016 4FF0E023 		mov	r3, #-536813568
+ 166 001a 1B69     		ldr	r3, [r3, #16]
+ 167              	.LVL8:
+  36:Drivers/HARDWARE/Src/delay.c **** 	}while((temp&0x01)&&!(temp&(1<<16)));	  
+ 168              		.loc 1 36 8 is_stmt 1 discriminator 1 view .LVU41
+ 169              		.loc 1 36 20 is_stmt 0 discriminator 1 view .LVU42
+ 170 001c 03F00113 		and	r3, r3, #65537
+ 171              	.LVL9:
+ 172              		.loc 1 36 2 discriminator 1 view .LVU43
+ 173 0020 012B     		cmp	r3, #1
+ 174 0022 F8D0     		beq	.L9
+  37:Drivers/HARDWARE/Src/delay.c **** 	SysTick->CTRL=0x00;      	 			
+ 175              		.loc 1 37 2 is_stmt 1 view .LVU44
+ 176              		.loc 1 37 15 is_stmt 0 view .LVU45
+ 177 0024 4FF0E023 		mov	r3, #-536813568
+ 178 0028 0022     		movs	r2, #0
+ 179 002a 1A61     		str	r2, [r3, #16]
+  38:Drivers/HARDWARE/Src/delay.c **** 	SysTick->VAL =0X00;       				
+ 180              		.loc 1 38 2 is_stmt 1 view .LVU46
+ 181              		.loc 1 38 15 is_stmt 0 view .LVU47
+ 182 002c 9A61     		str	r2, [r3, #24]
+  39:Drivers/HARDWARE/Src/delay.c **** }
+ 183              		.loc 1 39 1 view .LVU48
+ 184 002e 7047     		bx	lr
+ 185              	.L11:
+ 186              		.align	2
+ 187              	.L10:
+ 188 0030 00000000 		.word	.LANCHOR1
+ 189              		.cfi_endproc
+ 190              	.LFE31:
+ 192              		.section	.bss.fac_ms,"aw",%nobits
+ 193              		.align	1
+ 194              		.set	.LANCHOR1,. + 0
+ 197              	fac_ms:
+ARM GAS  /tmp/cckv2Xvy.s 			page 5
+
+
+ 198 0000 0000     		.space	2
+ 199              		.section	.bss.fac_us,"aw",%nobits
+ 200              		.set	.LANCHOR0,. + 0
+ 203              	fac_us:
+ 204 0000 00       		.space	1
+ 205              		.text
+ 206              	.Letext0:
+ 207              		.file 2 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_default_types.h"
+ 208              		.file 3 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_stdint.h"
+ 209              		.file 4 "Core/Inc/core_cm3.h"
+ 210              		.file 5 "Core/Inc/stm32f10x.h"
+ARM GAS  /tmp/cckv2Xvy.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 delay.c
+     /tmp/cckv2Xvy.s:18     .text.delay_init:0000000000000000 $t
+     /tmp/cckv2Xvy.s:24     .text.delay_init:0000000000000000 delay_init
+     /tmp/cckv2Xvy.s:58     .text.delay_init:0000000000000024 $d
+     /tmp/cckv2Xvy.s:64     .text.delay_us:0000000000000000 $t
+     /tmp/cckv2Xvy.s:70     .text.delay_us:0000000000000000 delay_us
+     /tmp/cckv2Xvy.s:124    .text.delay_us:0000000000000034 $d
+     /tmp/cckv2Xvy.s:129    .text.delay_ms:0000000000000000 $t
+     /tmp/cckv2Xvy.s:135    .text.delay_ms:0000000000000000 delay_ms
+     /tmp/cckv2Xvy.s:188    .text.delay_ms:0000000000000030 $d
+     /tmp/cckv2Xvy.s:193    .bss.fac_ms:0000000000000000 $d
+     /tmp/cckv2Xvy.s:197    .bss.fac_ms:0000000000000000 fac_ms
+     /tmp/cckv2Xvy.s:203    .bss.fac_us:0000000000000000 fac_us
+     /tmp/cckv2Xvy.s:204    .bss.fac_us:0000000000000000 $d
+
+NO UNDEFINED SYMBOLS

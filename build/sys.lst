@@ -1,0 +1,286 @@
+ARM GAS  /tmp/cciBfPoK.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"sys.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MYRCC_DeInit,"ax",%progbits
+  18              		.align	1
+  19              		.global	MYRCC_DeInit
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	MYRCC_DeInit:
+  25              	.LFB29:
+  26              		.file 1 "Drivers/HARDWARE/Src/sys.c"
+   1:Drivers/HARDWARE/Src/sys.c **** #include "sys.h"
+   2:Drivers/HARDWARE/Src/sys.c **** 
+   3:Drivers/HARDWARE/Src/sys.c **** void MYRCC_DeInit(void)
+   4:Drivers/HARDWARE/Src/sys.c **** {	
+  27              		.loc 1 4 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+   5:Drivers/HARDWARE/Src/sys.c ****  	RCC->APB1RSTR = 0x00000000;//复位结束			 
+  32              		.loc 1 5 3 view .LVU1
+  33              		.loc 1 5 17 is_stmt 0 view .LVU2
+  34 0000 0F4B     		ldr	r3, .L2
+  35 0002 0022     		movs	r2, #0
+  36 0004 1A61     		str	r2, [r3, #16]
+   6:Drivers/HARDWARE/Src/sys.c **** 	RCC->APB2RSTR = 0x00000000; 
+  37              		.loc 1 6 2 is_stmt 1 view .LVU3
+  38              		.loc 1 6 16 is_stmt 0 view .LVU4
+  39 0006 DA60     		str	r2, [r3, #12]
+   7:Drivers/HARDWARE/Src/sys.c ****   RCC->AHBENR = 0x00000014;  //睡眠模式闪存和SRAM时钟使能.其他关闭.	  
+  40              		.loc 1 7 3 is_stmt 1 view .LVU5
+  41              		.loc 1 7 15 is_stmt 0 view .LVU6
+  42 0008 1421     		movs	r1, #20
+  43 000a 5961     		str	r1, [r3, #20]
+   8:Drivers/HARDWARE/Src/sys.c ****   RCC->APB2ENR = 0x00000000; //外设时钟关闭.			   
+  44              		.loc 1 8 3 is_stmt 1 view .LVU7
+  45              		.loc 1 8 16 is_stmt 0 view .LVU8
+  46 000c 9A61     		str	r2, [r3, #24]
+   9:Drivers/HARDWARE/Src/sys.c ****   RCC->APB1ENR = 0x00000000; 		  	
+  47              		.loc 1 9 3 is_stmt 1 view .LVU9
+  48              		.loc 1 9 16 is_stmt 0 view .LVU10
+  49 000e DA61     		str	r2, [r3, #28]
+ARM GAS  /tmp/cciBfPoK.s 			page 2
+
+
+  10:Drivers/HARDWARE/Src/sys.c **** 	RCC->CR |= 0x00000001;     //使能内部高速时钟HSION	 															 
+  50              		.loc 1 10 2 is_stmt 1 view .LVU11
+  51              		.loc 1 10 10 is_stmt 0 view .LVU12
+  52 0010 1968     		ldr	r1, [r3]
+  53 0012 41F00101 		orr	r1, r1, #1
+  54 0016 1960     		str	r1, [r3]
+  11:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR &= 0xF8FF0000;   //复位SW[1:0],HPRE[3:0],PPRE1[2:0],PPRE2[2:0],ADCPRE[1:0],MCO[2:0]					
+  55              		.loc 1 11 2 is_stmt 1 view .LVU13
+  56              		.loc 1 11 12 is_stmt 0 view .LVU14
+  57 0018 5868     		ldr	r0, [r3, #4]
+  58 001a 0A49     		ldr	r1, .L2+4
+  59 001c 0140     		ands	r1, r1, r0
+  60 001e 5960     		str	r1, [r3, #4]
+  12:Drivers/HARDWARE/Src/sys.c **** 	RCC->CR &= 0xFEF6FFFF;     //复位HSEON,CSSON,PLLON
+  61              		.loc 1 12 2 is_stmt 1 view .LVU15
+  62              		.loc 1 12 10 is_stmt 0 view .LVU16
+  63 0020 1968     		ldr	r1, [r3]
+  64 0022 21F08471 		bic	r1, r1, #17301504
+  65 0026 21F48031 		bic	r1, r1, #65536
+  66 002a 1960     		str	r1, [r3]
+  13:Drivers/HARDWARE/Src/sys.c **** 	RCC->CR &= 0xFFFBFFFF;     //复位HSEBYP	   	  
+  67              		.loc 1 13 2 is_stmt 1 view .LVU17
+  68              		.loc 1 13 10 is_stmt 0 view .LVU18
+  69 002c 1968     		ldr	r1, [r3]
+  70 002e 21F48021 		bic	r1, r1, #262144
+  71 0032 1960     		str	r1, [r3]
+  14:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR &= 0xFF80FFFF;   //复位PLLSRC, PLLXTPRE, PLLMUL[3:0] and USBPRE 
+  72              		.loc 1 14 2 is_stmt 1 view .LVU19
+  73              		.loc 1 14 12 is_stmt 0 view .LVU20
+  74 0034 5968     		ldr	r1, [r3, #4]
+  75 0036 21F4FE01 		bic	r1, r1, #8323072
+  76 003a 5960     		str	r1, [r3, #4]
+  15:Drivers/HARDWARE/Src/sys.c **** 	RCC->CIR = 0x00000000;     //关闭所有中断		 
+  77              		.loc 1 15 2 is_stmt 1 view .LVU21
+  78              		.loc 1 15 11 is_stmt 0 view .LVU22
+  79 003c 9A60     		str	r2, [r3, #8]
+  16:Drivers/HARDWARE/Src/sys.c **** 	//配置向量表				  
+  17:Drivers/HARDWARE/Src/sys.c **** //#ifdef  VECT_TAB_RAM
+  18:Drivers/HARDWARE/Src/sys.c **** //	MY_NVIC_SetVectorTable(0x20000000, 0x0);
+  19:Drivers/HARDWARE/Src/sys.c **** //#else   
+  20:Drivers/HARDWARE/Src/sys.c **** //	MY_NVIC_SetVectorTable(0x08000000,0x0);
+  21:Drivers/HARDWARE/Src/sys.c **** //#endif
+  22:Drivers/HARDWARE/Src/sys.c **** }
+  80              		.loc 1 22 1 view .LVU23
+  81 003e 7047     		bx	lr
+  82              	.L3:
+  83              		.align	2
+  84              	.L2:
+  85 0040 00100240 		.word	1073876992
+  86 0044 0000FFF8 		.word	-117506048
+  87              		.cfi_endproc
+  88              	.LFE29:
+  90              		.section	.text.Stm32_Clock_Init,"ax",%progbits
+  91              		.align	1
+  92              		.global	Stm32_Clock_Init
+  93              		.syntax unified
+  94              		.thumb
+ARM GAS  /tmp/cciBfPoK.s 			page 3
+
+
+  95              		.thumb_func
+  97              	Stm32_Clock_Init:
+  98              	.LVL0:
+  99              	.LFB30:
+  23:Drivers/HARDWARE/Src/sys.c **** 
+  24:Drivers/HARDWARE/Src/sys.c **** void Stm32_Clock_Init(u8 PLL)
+  25:Drivers/HARDWARE/Src/sys.c **** {
+ 100              		.loc 1 25 1 is_stmt 1 view -0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		.loc 1 25 1 is_stmt 0 view .LVU25
+ 105 0000 10B5     		push	{r4, lr}
+ 106              	.LCFI0:
+ 107              		.cfi_def_cfa_offset 8
+ 108              		.cfi_offset 4, -8
+ 109              		.cfi_offset 14, -4
+ 110 0002 0446     		mov	r4, r0
+  26:Drivers/HARDWARE/Src/sys.c **** 	unsigned char temp=0;   
+ 111              		.loc 1 26 2 is_stmt 1 view .LVU26
+ 112              	.LVL1:
+  27:Drivers/HARDWARE/Src/sys.c **** 	MYRCC_DeInit();		  //复位并配置向量表
+ 113              		.loc 1 27 2 view .LVU27
+ 114 0004 FFF7FEFF 		bl	MYRCC_DeInit
+ 115              	.LVL2:
+  28:Drivers/HARDWARE/Src/sys.c ****  	RCC->CR|=0x00010000;  //外部高速时钟使能HSEON
+ 116              		.loc 1 28 3 view .LVU28
+ 117              		.loc 1 28 10 is_stmt 0 view .LVU29
+ 118 0008 184A     		ldr	r2, .L10
+ 119 000a 1368     		ldr	r3, [r2]
+ 120 000c 43F48033 		orr	r3, r3, #65536
+ 121 0010 1360     		str	r3, [r2]
+  29:Drivers/HARDWARE/Src/sys.c **** 	while(!(RCC->CR>>17));//等待外部时钟就绪
+ 122              		.loc 1 29 2 is_stmt 1 view .LVU30
+ 123              	.L5:
+ 124              		.loc 1 29 23 discriminator 1 view .LVU31
+ 125              		.loc 1 29 7 discriminator 1 view .LVU32
+ 126              		.loc 1 29 13 is_stmt 0 discriminator 1 view .LVU33
+ 127 0012 164B     		ldr	r3, .L10
+ 128 0014 1B68     		ldr	r3, [r3]
+ 129              		.loc 1 29 7 discriminator 1 view .LVU34
+ 130 0016 5B0C     		lsrs	r3, r3, #17
+ 131 0018 FBD0     		beq	.L5
+  30:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR=0X00000400;
+ 132              		.loc 1 30 2 is_stmt 1 view .LVU35
+ 133              		.loc 1 30 11 is_stmt 0 view .LVU36
+ 134 001a 144B     		ldr	r3, .L10
+ 135 001c 4FF48062 		mov	r2, #1024
+ 136 0020 5A60     		str	r2, [r3, #4]
+  31:Drivers/HARDWARE/Src/sys.c **** 	PLL-=2;
+ 137              		.loc 1 31 2 is_stmt 1 view .LVU37
+ 138              		.loc 1 31 5 is_stmt 0 view .LVU38
+ 139 0022 023C     		subs	r4, r4, #2
+ 140 0024 E4B2     		uxtb	r4, r4
+ 141              	.LVL3:
+  32:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR|=PLL<<18;   //设置PLL值 2~16
+ 142              		.loc 1 32 2 is_stmt 1 view .LVU39
+ARM GAS  /tmp/cciBfPoK.s 			page 4
+
+
+ 143              		.loc 1 32 11 is_stmt 0 view .LVU40
+ 144 0026 5A68     		ldr	r2, [r3, #4]
+ 145 0028 42EA8444 		orr	r4, r2, r4, lsl #18
+ 146              	.LVL4:
+ 147              		.loc 1 32 11 view .LVU41
+ 148 002c 5C60     		str	r4, [r3, #4]
+  33:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR|=1<<16;	  //PLLSRC ON 
+ 149              		.loc 1 33 2 is_stmt 1 view .LVU42
+ 150              		.loc 1 33 11 is_stmt 0 view .LVU43
+ 151 002e 5A68     		ldr	r2, [r3, #4]
+ 152 0030 42F48032 		orr	r2, r2, #65536
+ 153 0034 5A60     		str	r2, [r3, #4]
+  34:Drivers/HARDWARE/Src/sys.c **** 	FLASH->ACR|=0x32;	  //FLASH 2个延时周期
+ 154              		.loc 1 34 2 is_stmt 1 view .LVU44
+ 155              		.loc 1 34 12 is_stmt 0 view .LVU45
+ 156 0036 0E49     		ldr	r1, .L10+4
+ 157 0038 0A68     		ldr	r2, [r1]
+ 158 003a 42F03202 		orr	r2, r2, #50
+ 159 003e 0A60     		str	r2, [r1]
+  35:Drivers/HARDWARE/Src/sys.c **** 	RCC->CR|=0x01000000;  //PLLON
+ 160              		.loc 1 35 2 is_stmt 1 view .LVU46
+ 161              		.loc 1 35 9 is_stmt 0 view .LVU47
+ 162 0040 1A68     		ldr	r2, [r3]
+ 163 0042 42F08072 		orr	r2, r2, #16777216
+ 164 0046 1A60     		str	r2, [r3]
+  36:Drivers/HARDWARE/Src/sys.c **** 	while(!(RCC->CR>>25));//等待PLL锁定
+ 165              		.loc 1 36 2 is_stmt 1 view .LVU48
+ 166              	.L6:
+ 167              		.loc 1 36 23 discriminator 1 view .LVU49
+ 168              		.loc 1 36 7 discriminator 1 view .LVU50
+ 169              		.loc 1 36 13 is_stmt 0 discriminator 1 view .LVU51
+ 170 0048 084B     		ldr	r3, .L10
+ 171 004a 1B68     		ldr	r3, [r3]
+ 172              		.loc 1 36 7 discriminator 1 view .LVU52
+ 173 004c 5B0E     		lsrs	r3, r3, #25
+ 174 004e FBD0     		beq	.L6
+  37:Drivers/HARDWARE/Src/sys.c **** 	RCC->CFGR|=0x00000002;//PLL作为系统时钟	 
+ 175              		.loc 1 37 2 is_stmt 1 view .LVU53
+ 176              		.loc 1 37 11 is_stmt 0 view .LVU54
+ 177 0050 064A     		ldr	r2, .L10
+ 178 0052 5368     		ldr	r3, [r2, #4]
+ 179 0054 43F00203 		orr	r3, r3, #2
+ 180 0058 5360     		str	r3, [r2, #4]
+  38:Drivers/HARDWARE/Src/sys.c **** 	while(temp!=0x02)     //等待PLL作为系统时钟设置成功
+ 181              		.loc 1 38 2 is_stmt 1 view .LVU55
+  26:Drivers/HARDWARE/Src/sys.c **** 	MYRCC_DeInit();		  //复位并配置向量表
+ 182              		.loc 1 26 16 is_stmt 0 view .LVU56
+ 183 005a 0023     		movs	r3, #0
+ 184              		.loc 1 38 7 view .LVU57
+ 185 005c 03E0     		b	.L7
+ 186              	.LVL5:
+ 187              	.L8:
+  39:Drivers/HARDWARE/Src/sys.c **** 	{   
+  40:Drivers/HARDWARE/Src/sys.c **** 		temp=RCC->CFGR>>2;
+ 188              		.loc 1 40 3 is_stmt 1 view .LVU58
+ 189              		.loc 1 40 11 is_stmt 0 view .LVU59
+ 190 005e 034B     		ldr	r3, .L10
+ARM GAS  /tmp/cciBfPoK.s 			page 5
+
+
+ 191              	.LVL6:
+ 192              		.loc 1 40 11 view .LVU60
+ 193 0060 5B68     		ldr	r3, [r3, #4]
+ 194              	.LVL7:
+  41:Drivers/HARDWARE/Src/sys.c **** 		temp&=0x03;
+ 195              		.loc 1 41 3 is_stmt 1 view .LVU61
+ 196              		.loc 1 41 7 is_stmt 0 view .LVU62
+ 197 0062 C3F38103 		ubfx	r3, r3, #2, #2
+ 198              	.LVL8:
+ 199              	.L7:
+  38:Drivers/HARDWARE/Src/sys.c **** 	{   
+ 200              		.loc 1 38 7 is_stmt 1 view .LVU63
+ 201 0066 022B     		cmp	r3, #2
+ 202 0068 F9D1     		bne	.L8
+  42:Drivers/HARDWARE/Src/sys.c **** 	}    
+  43:Drivers/HARDWARE/Src/sys.c **** }
+ 203              		.loc 1 43 1 is_stmt 0 view .LVU64
+ 204 006a 10BD     		pop	{r4, pc}
+ 205              	.L11:
+ 206              		.align	2
+ 207              	.L10:
+ 208 006c 00100240 		.word	1073876992
+ 209 0070 00200240 		.word	1073881088
+ 210              		.cfi_endproc
+ 211              	.LFE30:
+ 213              		.text
+ 214              	.Letext0:
+ 215              		.file 2 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_default_types.h"
+ 216              		.file 3 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_stdint.h"
+ 217              		.file 4 "Core/Inc/stm32f10x.h"
+ARM GAS  /tmp/cciBfPoK.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sys.c
+     /tmp/cciBfPoK.s:18     .text.MYRCC_DeInit:0000000000000000 $t
+     /tmp/cciBfPoK.s:24     .text.MYRCC_DeInit:0000000000000000 MYRCC_DeInit
+     /tmp/cciBfPoK.s:85     .text.MYRCC_DeInit:0000000000000040 $d
+     /tmp/cciBfPoK.s:91     .text.Stm32_Clock_Init:0000000000000000 $t
+     /tmp/cciBfPoK.s:97     .text.Stm32_Clock_Init:0000000000000000 Stm32_Clock_Init
+     /tmp/cciBfPoK.s:208    .text.Stm32_Clock_Init:000000000000006c $d
+
+NO UNDEFINED SYMBOLS

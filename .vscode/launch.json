@@ -1,0 +1,23 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cortex Debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/STM32F103ZE_Makefile_jicunqi.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "/home/dong/tools/openocd/share/openocd/scripts/interface/cmsis-dap.cfg",
+                "/home/dong/tools/openocd/share/openocd/scripts/target/stm32f1x.cfg"
+            ],
+            "armToolchainPath": "/opt/gcc-arm-none-eabi-10.3-2021.10/bin",
+            "svdFile": "STM32F103xx.svd",
+            "preLaunchTask": "Build"
+        }
+    ]
+}

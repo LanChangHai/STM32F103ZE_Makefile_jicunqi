@@ -1,0 +1,213 @@
+ARM GAS  /tmp/cckrymHf.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f103_gpio.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.GPIO_SetBits,"ax",%progbits
+  18              		.align	1
+  19              		.global	GPIO_SetBits
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	GPIO_SetBits:
+  25              	.LVL0:
+  26              	.LFB29:
+  27              		.file 1 "Drivers/HARDWARE/Src/stm32f103_gpio.c"
+   1:Drivers/HARDWARE/Src/stm32f103_gpio.c **** #include "stm32f103_gpio.h"
+   2:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 
+   3:Drivers/HARDWARE/Src/stm32f103_gpio.c **** void GPIO_SetBits(GPIO_TypeDef *GPIOx,u16 GPIO_Pin)
+   4:Drivers/HARDWARE/Src/stm32f103_gpio.c **** {
+  28              		.loc 1 4 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+   5:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	GPIOx->BSRR|=GPIO_Pin;
+  33              		.loc 1 5 2 view .LVU1
+  34              		.loc 1 5 13 is_stmt 0 view .LVU2
+  35 0000 0369     		ldr	r3, [r0, #16]
+  36 0002 1943     		orrs	r1, r1, r3
+  37              	.LVL1:
+  38              		.loc 1 5 13 view .LVU3
+  39 0004 0161     		str	r1, [r0, #16]
+   6:Drivers/HARDWARE/Src/stm32f103_gpio.c **** }
+  40              		.loc 1 6 1 view .LVU4
+  41 0006 7047     		bx	lr
+  42              		.cfi_endproc
+  43              	.LFE29:
+  45              		.section	.text.GPIO_ResetBits,"ax",%progbits
+  46              		.align	1
+  47              		.global	GPIO_ResetBits
+  48              		.syntax unified
+  49              		.thumb
+  50              		.thumb_func
+  52              	GPIO_ResetBits:
+  53              	.LVL2:
+  54              	.LFB30:
+ARM GAS  /tmp/cckrymHf.s 			page 2
+
+
+   7:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 
+   8:Drivers/HARDWARE/Src/stm32f103_gpio.c **** void GPIO_ResetBits(GPIO_TypeDef *GPIOx,u16 GPIO_Pin)
+   9:Drivers/HARDWARE/Src/stm32f103_gpio.c **** {
+  55              		.loc 1 9 1 is_stmt 1 view -0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              		@ link register save eliminated.
+  10:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	GPIOx->BRR|=GPIO_Pin;
+  60              		.loc 1 10 2 view .LVU6
+  61              		.loc 1 10 12 is_stmt 0 view .LVU7
+  62 0000 4369     		ldr	r3, [r0, #20]
+  63 0002 1943     		orrs	r1, r1, r3
+  64              	.LVL3:
+  65              		.loc 1 10 12 view .LVU8
+  66 0004 4161     		str	r1, [r0, #20]
+  11:Drivers/HARDWARE/Src/stm32f103_gpio.c **** }
+  67              		.loc 1 11 1 view .LVU9
+  68 0006 7047     		bx	lr
+  69              		.cfi_endproc
+  70              	.LFE30:
+  72              		.section	.text.LED_Init,"ax",%progbits
+  73              		.align	1
+  74              		.global	LED_Init
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  79              	LED_Init:
+  80              	.LFB31:
+  12:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 
+  13:Drivers/HARDWARE/Src/stm32f103_gpio.c **** void LED_Init(void)
+  14:Drivers/HARDWARE/Src/stm32f103_gpio.c **** {
+  81              		.loc 1 14 1 is_stmt 1 view -0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  15:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 RCC->APB2ENR|=(1<<8);
+  86              		.loc 1 15 3 view .LVU11
+  87              		.loc 1 15 15 is_stmt 0 view .LVU12
+  88 0000 1A4B     		ldr	r3, .L4
+  89 0002 9A69     		ldr	r2, [r3, #24]
+  90 0004 42F48072 		orr	r2, r2, #256
+  91 0008 9A61     		str	r2, [r3, #24]
+  16:Drivers/HARDWARE/Src/stm32f103_gpio.c ****    RCC->APB2ENR|=(1<<3);
+  92              		.loc 1 16 4 is_stmt 1 view .LVU13
+  93              		.loc 1 16 16 is_stmt 0 view .LVU14
+  94 000a 9A69     		ldr	r2, [r3, #24]
+  95 000c 42F00802 		orr	r2, r2, #8
+  96 0010 9A61     		str	r2, [r3, #24]
+  17:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 RCC->APB2ENR|=(1<<2);
+  97              		.loc 1 17 3 is_stmt 1 view .LVU15
+  98              		.loc 1 17 15 is_stmt 0 view .LVU16
+  99 0012 9A69     		ldr	r2, [r3, #24]
+ 100 0014 42F00402 		orr	r2, r2, #4
+ 101 0018 9A61     		str	r2, [r3, #24]
+  18:Drivers/HARDWARE/Src/stm32f103_gpio.c ****    GPIOB->CRH|=0X00000033;
+ARM GAS  /tmp/cckrymHf.s 			page 3
+
+
+ 102              		.loc 1 18 4 is_stmt 1 view .LVU17
+ 103              		.loc 1 18 14 is_stmt 0 view .LVU18
+ 104 001a 1549     		ldr	r1, .L4+4
+ 105 001c 4B68     		ldr	r3, [r1, #4]
+ 106 001e 43F03303 		orr	r3, r3, #51
+ 107 0022 4B60     		str	r3, [r1, #4]
+  19:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOA->CRH|=0x00000003;
+ 108              		.loc 1 19 3 is_stmt 1 view .LVU19
+ 109              		.loc 1 19 13 is_stmt 0 view .LVU20
+ 110 0024 134A     		ldr	r2, .L4+8
+ 111 0026 5368     		ldr	r3, [r2, #4]
+ 112 0028 43F00303 		orr	r3, r3, #3
+ 113 002c 5360     		str	r3, [r2, #4]
+  20:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOG->CRL|=0x03000000;
+ 114              		.loc 1 20 3 is_stmt 1 view .LVU21
+ 115              		.loc 1 20 13 is_stmt 0 view .LVU22
+ 116 002e 124B     		ldr	r3, .L4+12
+ 117 0030 1868     		ldr	r0, [r3]
+ 118 0032 40F04070 		orr	r0, r0, #50331648
+ 119 0036 1860     		str	r0, [r3]
+  21:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOB->BRR|=0x0300;
+ 120              		.loc 1 21 3 is_stmt 1 view .LVU23
+ 121              		.loc 1 21 13 is_stmt 0 view .LVU24
+ 122 0038 4869     		ldr	r0, [r1, #20]
+ 123 003a 40F44070 		orr	r0, r0, #768
+ 124 003e 4861     		str	r0, [r1, #20]
+  22:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOB->BSRR|=0x0300;
+ 125              		.loc 1 22 3 is_stmt 1 view .LVU25
+ 126              		.loc 1 22 14 is_stmt 0 view .LVU26
+ 127 0040 0869     		ldr	r0, [r1, #16]
+ 128 0042 40F44070 		orr	r0, r0, #768
+ 129 0046 0861     		str	r0, [r1, #16]
+  23:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOA->BRR|=0x0100;
+ 130              		.loc 1 23 3 is_stmt 1 view .LVU27
+ 131              		.loc 1 23 13 is_stmt 0 view .LVU28
+ 132 0048 5169     		ldr	r1, [r2, #20]
+ 133 004a 41F48071 		orr	r1, r1, #256
+ 134 004e 5161     		str	r1, [r2, #20]
+  24:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOA->BSRR|=0x0100;
+ 135              		.loc 1 24 3 is_stmt 1 view .LVU29
+ 136              		.loc 1 24 14 is_stmt 0 view .LVU30
+ 137 0050 1169     		ldr	r1, [r2, #16]
+ 138 0052 41F48071 		orr	r1, r1, #256
+ 139 0056 1161     		str	r1, [r2, #16]
+  25:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOG->BRR|=0x0040;
+ 140              		.loc 1 25 3 is_stmt 1 view .LVU31
+ 141              		.loc 1 25 13 is_stmt 0 view .LVU32
+ 142 0058 5A69     		ldr	r2, [r3, #20]
+ 143 005a 42F04002 		orr	r2, r2, #64
+ 144 005e 5A61     		str	r2, [r3, #20]
+  26:Drivers/HARDWARE/Src/stm32f103_gpio.c **** 	 GPIOG->BSRR|=0x0040;
+ 145              		.loc 1 26 3 is_stmt 1 view .LVU33
+ 146              		.loc 1 26 14 is_stmt 0 view .LVU34
+ 147 0060 1A69     		ldr	r2, [r3, #16]
+ 148 0062 42F04002 		orr	r2, r2, #64
+ 149 0066 1A61     		str	r2, [r3, #16]
+  27:Drivers/HARDWARE/Src/stm32f103_gpio.c **** }
+ARM GAS  /tmp/cckrymHf.s 			page 4
+
+
+ 150              		.loc 1 27 1 view .LVU35
+ 151 0068 7047     		bx	lr
+ 152              	.L5:
+ 153 006a 00BF     		.align	2
+ 154              	.L4:
+ 155 006c 00100240 		.word	1073876992
+ 156 0070 000C0140 		.word	1073810432
+ 157 0074 00080140 		.word	1073809408
+ 158 0078 00200140 		.word	1073815552
+ 159              		.cfi_endproc
+ 160              	.LFE31:
+ 162              		.text
+ 163              	.Letext0:
+ 164              		.file 2 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_default_types.h"
+ 165              		.file 3 "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_stdint.h"
+ 166              		.file 4 "Core/Inc/stm32f10x.h"
+ARM GAS  /tmp/cckrymHf.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f103_gpio.c
+     /tmp/cckrymHf.s:18     .text.GPIO_SetBits:0000000000000000 $t
+     /tmp/cckrymHf.s:24     .text.GPIO_SetBits:0000000000000000 GPIO_SetBits
+     /tmp/cckrymHf.s:46     .text.GPIO_ResetBits:0000000000000000 $t
+     /tmp/cckrymHf.s:52     .text.GPIO_ResetBits:0000000000000000 GPIO_ResetBits
+     /tmp/cckrymHf.s:73     .text.LED_Init:0000000000000000 $t
+     /tmp/cckrymHf.s:79     .text.LED_Init:0000000000000000 LED_Init
+     /tmp/cckrymHf.s:155    .text.LED_Init:000000000000006c $d
+
+NO UNDEFINED SYMBOLS
